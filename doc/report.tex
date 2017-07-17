@@ -95,6 +95,74 @@ The factor \(\frac{1}{2}\) is inserted for convenience and will disappear when t
 
 \section{Solution}
 
+In order to find the optimal parameters \(\vec{W^*}\), we need to differentiate the error function and find the zeros.
+
+\begin{align}
+    dE(\vec{W}) & = \frac{\partial{E}}{\partial{w_0}}dw_0 + \frac{\partial{E}}{\partial{w_1}}dw_1 + \cdots + \frac{\partial{E}}{\partial{w_m}}dw_m  \\
+    dE(\vec{W}) & = \sum_{j=0}^{j=m}{\frac{\partial{E}}{\partial{w_j}}dw_j}                                                                         \\
+    dE(\vec{W}) & = 0 \text{ when } \vec{W} = \vec{W^*}                                                                                             \\
+    \implies \left.\frac{\partial{E}}{\partial{w_j}}\right|_{w_j=w_j^*} & = 0 \,\forall j \in \{0, 1, \cdots, m\}
+\end{align}
+
+Thus, we end up with \(m+1\) linear equations in \(\vec{W}\) that can be solved to find \(\vec{W^*}\).
+Each partial derivative expands thusly.
+
+\begin{align}
+    \frac{\partial{E}}{\partial{w_j}}                       & = \sum_{i=1}^{i=n}{(y_i - t_i)}\frac{\partial{y_i}}{\partial{w_j}}                \\
+                                                            & \frac{\partial{y_i}}{\partial{w_j}} = x_i^j                                       \\
+    \text{Substituting, } \frac{\partial{E}}{\partial{w_j}} & = \sum_{i=1}^{i=n}{(y_i - t_i)x_i^j}                                              \\
+                                                            & = \sum_{i=1}^{i=n}{(\sum_{k=0}^{k=m}{w_kx_i^k} - t_i)x_i^j}                       \\
+                                                            & = \sum_{k=0}^{k=m}{w_k\sum_{i=1}^{i=n}{x_i^k}x_i^j - \sum_{i=1}^{i=n}{t_i}x_i^j}  \\
+                                                            & = \sum_{k=0}^{k=m}{w_k\sum_{i=1}^{i=n}{x_i^{j+k}} - \sum_{i=1}^{i=n}{t_i}x_i^j}
+\end{align}
+
+Hence, our \(m+1\) linear equations in \(\vec{W^*}\) are as follows.
+
+\begin{equation}
+    \sum_{k=0}^{k=m}{w_k^ * \sum_{i=1}^{i=n}{x_i^{j+k}} - \sum_{i=1}^{i=n}{t_i}x_i^j} = 0
+\end{equation}
+
+Written out as a matrix,
+
+\begin{equation}
+    \begin{bmatrix}
+        n                       & \sum_{i=1}^{i=n}{x_i}       & \cdots & \sum_{i=1}^{i=n}{x_i^m}        \\[1em]
+        \sum_{i=1}^{i=n}{x_i}   & \sum_{i=1}^{i=n}{x_i^2}     & \cdots & \sum_{i=1}^{i=n}{x_i^{m+1}}    \\[1em]
+        \vdots                  & \vdots                      & \ddots & \vdots                         \\[1em]
+        \sum_{i=1}^{i=n}{x_i^m} & \sum_{i=1}^{i=n}{x_i^{m+1}} & \cdots & \sum_{i=1}^{i=n}{x_i^{2m}}
+    \end{bmatrix}\begin{bmatrix}
+        w_0^*   \\[1em]
+        w_1^*   \\[1em]
+        \vdots  \\[1em]
+        w_m^*
+    \end{bmatrix} = \begin{bmatrix}
+        \sum_{i=1}^{i=n}{t_i}       \\[1em]
+        \sum_{i=1}^{i=n}{t_ix_i}    \\[1em]
+        \vdots                      \\[1em]
+        \sum_{i=1}^{i=n}{t_ix_i^m}
+    \end{bmatrix}
+\end{equation}
+
+Using \(\sum{}\) for \(\sum_{i=1}^{i=n}{}\) makes this equation look less busy.
+
+\begin{equation}
+    \begin{bmatrix}
+        n           & \sum{x_i}         & \cdots & \sum{x_i^m}      \\[1em]
+        \sum{x_i}   & \sum{x_i^2}       & \cdots & \sum{x_i^{m+1}}  \\[1em]
+        \vdots      & \vdots            & \ddots & \vdots           \\[1em]
+        \sum{x_i^m} & \sum{x_i^{m+1}}   & \cdots & \sum{x_i^{2m}}
+    \end{bmatrix}\begin{bmatrix}
+        w_0^*   \\[1em]
+        w_1^*   \\[1em]
+        \vdots  \\[1em]
+        w_m^*
+    \end{bmatrix} = \begin{bmatrix}
+        \sum{t_i}       \\[1em]
+        \sum{t_ix_i}    \\[1em]
+        \vdots          \\[1em]
+        \sum{t_ix_i^m}
+    \end{bmatrix}
+\end{equation}
 
 \bibliographystyle{plain}
 \bibliography{}
