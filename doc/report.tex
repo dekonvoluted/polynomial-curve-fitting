@@ -25,6 +25,74 @@ Finally, a matrix is written in uppercase, example, \(A\vec{X}=\vec{B}\).
 
 \section{Problem Statement}
 
+We begin with \(n\) observations acquired as distinct values of an input variable, \(x\).
+The values of the input variable at which these observations are made, \(x_i\) form the components of the input vector, \(\vec{X}\).
+The values are distinct and arranged in a monotonically ascending order, such that \(x_1\) is the lowest and \(x_n\) is the highest.
+This range, \([x_1,x_n]\) is called the scope of the model.
+
+\begin{equation}
+    \vec{X} = \begin{bmatrix}
+        x_1     \\
+        x_2     \\
+        \vdots  \\
+        x_n
+    \end{bmatrix}
+\end{equation}
+
+Corresponding to each of these input variables \(x_i\), the observation yields a target variable, \(t_i\).
+The target vector \(\vec{T}\) is comprised of these observations and maintains the same order as \(\vec{X}\).
+
+\begin{equation}
+    \vec{T} = \begin{bmatrix}
+        t_1     \\
+        t_2     \\
+        \vdots  \\
+        t_n
+    \end{bmatrix}
+\end{equation}
+
+The goal is to find a model \(y(x)\) that predicts the target variable \(t\) for a given input variable \(x\).
+
+\begin{equation}
+    y(x) = t
+\end{equation}
+
+The set of ordered pairs \((x_i, t_i)\) comprises the training data set for this model.
+Note that the predicted value \(y_i\) is likely to not be equal to the observation \(t_i\), leading to an error \(e_i\).
+The error \(e_i\) should be non-negative so that it can be summed.
+
+\begin{equation}
+    y_i = y(x_i)
+\end{equation}
+
+\begin{equation}
+    e_i = (y_i - t_i)^2
+    \label{eqn:error}
+\end{equation}
+
+Until now, we have not limited the functional form of the model \(y(x)\) and there are an infinite number of models possible.
+We will now consider models that are in the form of a polynomial in \(x\), with no limitations on the order of the polynomial \(m\) or its coefficients \(w_j\).\footnote{Note however, that \(\vec{W}\) is zero-indexed and has \(m+1\) components, while \(\vec{X}\) and \(\vec{T}\) are one-indexed and have \(n\) components.}
+
+\begin{align}
+    y(x, \vec{W}) & = w_0 + w_1x + w_2x^2 + ... + w_mx^m \\
+                  & = \sum_{j=0}^{j=m}{w_jx^j}
+\end{align}
+
+The coefficients of this polynomial, \(w_j\) form the components of the parameters vector \(\vec{W}\) which identifies this model uniquely.
+Since this model is linear in its parameters \(\vec{W}\), this is a linear model.
+
+Our goal now is to find the optimal parameters \(\vec{W^*}\) such that the model \(y(x, \vec{W^*})\) best predicts the target variable \(t\) for any input variable \(x\) within the scope of the model.
+One way to quantify what constitutes "best prediction" is to use the error function from Equation \ref{eqn:error} and minimize the difference between our prediction and our observation for the training data.
+
+\begin{align}
+    E_i        & = \frac{1}{2}(y_i - t_i)^2 = \frac{1}{2}(y(x_i, \vec{W}) - t_i)^2 \\
+    E(\vec{W}) & = \frac{1}{2}\sum_{i=1}^{i=n}(y(x_i, \vec{W}) - t_i)^2
+\end{align}
+
+The magnitude of this error function is not critical.
+We simply need to minimize its value for all possible choices of the model parameters, \(\vec{W}\).
+The factor \(\frac{1}{2}\) is inserted for convenience and will disappear when the error is differentiated.
+
 \section{Solution}
 
 
