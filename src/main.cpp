@@ -1,20 +1,38 @@
-#include <algorithm>
 #include <iostream>
+#include <fstream>
 
+#include "polyfit-model.h"
 #include "sine-wave-experiment.h"
 
 int main( int argc, char** argv )
 {
-    SineWaveExperiment experiment;
+    // Set up a polynomial fit model
+    PolyFitModel model( std::make_unique<SineWaveExperiment>( 1.0, std::make_unique<NormalGenerator>( 0.0, 1.0 ) ) );
+    model.setScope( 0.0, 1.0 );
+    model.setObservationCount( 10 );
+    model.setOrder( 3 );
 
-    // Make multiple measurements at same input
-    const auto input = 0.5;
-    const auto count = 100;
+    // Write out coefficients
+    const auto coefficients = model.solve();
+    for ( auto i = 0; i < coefficients.size(); ++i ) {
+        std::cout << "w_" << i << " = " << coefficients( i ) << '\n';
+    }
 
-    std::vector<double> inputs( count, input );
-    auto observations = experiment.observe( inputs );
+    // Save observations and predictions
+    std::ofstream dataFile;
+    dataFile.open( "data.dat" );
+    const auto inputs = model.getInputs();
+    const auto observations = model.getObservations();
 
-    // Find the mean of observations
-    std::cout << std::accumulate( std::begin( observations ), std::end( observations ), 0.0 ) / observations.size() << '\n';
+    for ( auto i = 0; i < inputs.size(); ++i ) {
+        dataFile << inputs( i ) << '\t' << observations( i ) << '\t' << model.predict( inputs( i ) ) << '\n';
+    }
+
+    dataFile.close();
+
+    // Shortcut to plot
+    system( "gnuplot --persist -e \"plot [0:1][-2:2] 'data.dat' using 1:2 with points pointtype 7 linecolor rgbcolor 'blue' title 'Observations', \
+            'data.dat' using 1:3 with linespoints linetype 2 linecolor rgbcolor 'red' pointtype 1 smooth csplines title 'Prediction', \
+            sin(2*pi*x) with lines linetype 0 linecolor rgbcolor 'black' title 'Actual'\"" );
 }
 
