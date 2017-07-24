@@ -7,7 +7,7 @@
 int main( int argc, char** argv )
 {
     // Set up a polynomial fit model
-    PolyFitModel model( std::make_unique<SineWaveExperiment>( 1.0, std::make_unique<NormalGenerator>( 0.0, 1.0 ) ) );
+    PolyFitModel model( std::make_unique<SineWaveExperiment>( 0.5, std::make_unique<NormalGenerator>( 0.0, 1.0 ) ) );
     model.setScope( 0.0, 1.0 );
     model.setObservationCount( 10 );
     model.setOrder( 3 );
