@@ -3,6 +3,9 @@ cmake_minimum_required( VERSION 3.8.2 FATAL_ERROR )
 # Name the project
 project( polyfit )
 
+# Set up compiler flags
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -march=native" )
+
 # Find and include Eigen headers
 find_package( Eigen3 REQUIRED NO_MODULE )
 
