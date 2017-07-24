@@ -32,7 +32,7 @@ int main( int argc, char** argv )
 
     // Shortcut to plot
     system( "gnuplot --persist -e \"plot [0:1][-2:2] 'data.dat' using 1:2 with points pointtype 7 linecolor rgbcolor 'blue' title 'Observations', \
-            'data.dat' using 1:3 with linespoints linetype 2 linecolor rgbcolor 'red' pointtype 1 smooth csplines title 'Prediction', \
-            sin(2*pi*x) with lines linetype 0 linecolor rgbcolor 'black' title 'Actual'\"" );
+            'data.dat' using 1:3 with lines smooth csplines linetype 1 linecolor rgbcolor 'red' title 'Prediction', \
+            sin(2*pi*x) with lines linetype 1 linecolor rgbcolor 'green' title 'Actual'\"" );
 }
 
