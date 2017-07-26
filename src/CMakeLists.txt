@@ -10,7 +10,7 @@ set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -march=native" )
 find_package( Eigen3 REQUIRED NO_MODULE )
 
 # Add source code to the manifest
-set( sources normal-distribution-generator.cpp experiment.cpp sine-wave-experiment.cpp polyfit-model.cpp main.cpp )
+set( sources normal-distribution-generator.cpp experiment.cpp sine-wave-experiment.cpp model.cpp polyfit-model.cpp main.cpp )
 
 # Build executable
 add_executable( polyfit ${sources} )

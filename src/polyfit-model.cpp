@@ -1,27 +1,7 @@
 #include "polyfit-model.h"
 
-PolyFitModel::PolyFitModel( std::unique_ptr<Experiment>&& inExperiment ) : experiment( std::move( inExperiment ) )
+PolyFitModel::PolyFitModel( std::unique_ptr<Experiment>&& inExperiment ) : Model( std::move( inExperiment ) )
 {}
-
-void PolyFitModel::setScope( double inMinimum, double inMaximum )
-{
-    // Mark for recalculation, if necessary
-    recalculate |= ( minimum_input != inMinimum ) or ( maximum_input != inMaximum );
-    if ( not recalculate ) return;
-
-    minimum_input = inMinimum;
-    maximum_input = inMaximum;
-
-}
-
-void PolyFitModel::setObservationCount( int inCount )
-{
-    // Mark for recalculation, if necessary
-    recalculate |= ( count != inCount );
-    if ( not recalculate ) return;
-
-    count = inCount;
-}
 
 void PolyFitModel::setOrder( int inOrder )
 {
@@ -30,16 +10,6 @@ void PolyFitModel::setOrder( int inOrder )
     if ( not recalculate ) return;
 
     order = inOrder;
-}
-
-Eigen::VectorXd PolyFitModel::getInputs()
-{
-    return inputs;
-}
-
-Eigen::VectorXd PolyFitModel::getObservations()
-{
-    return observations;
 }
 
 Eigen::VectorXd PolyFitModel::solve()
